@@ -1,0 +1,222 @@
+:root {
+  font-family: Aptos, "Segoe UI Variable", Calibri, sans-serif;
+  color: #18242b;
+  background: #edf1f2;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --header-background: #18242b;
+  --header-foreground: #f7faf9;
+  --navigation-background: #f7faf9;
+  --navigation-border: #d6dfe0;
+  --accent: #007d73;
+  --accent-strong: #006158;
+  --accent-soft: #dcefeb;
+  --muted: #5d6c71;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+button,
+a {
+  font: inherit;
+}
+
+a:focus-visible {
+  outline: 3px solid #f2a900;
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 10;
+  padding: 0.65rem 0.9rem;
+  color: #18242b;
+  background: #ffffff;
+  border-radius: 4px;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.app-shell {
+  display: grid;
+  grid-template-rows: 4.5rem minmax(0, 1fr);
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0 1.5rem;
+  color: var(--header-foreground);
+  background: var(--header-background);
+  border-bottom: 3px solid var(--accent);
+}
+
+.brand-mark {
+  display: grid;
+  width: 2.4rem;
+  height: 2.4rem;
+  place-items: center;
+  color: #ffffff;
+  background: var(--accent);
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.brand-name {
+  font-family: "Segoe UI Variable Display", "Aptos Display", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 650;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: 15rem minmax(0, 1fr);
+  min-height: 0;
+}
+
+.side-navigation {
+  padding: 1.75rem 1rem;
+  background: var(--navigation-background);
+  border-right: 1px solid var(--navigation-border);
+}
+
+.navigation-label {
+  margin: 0 0 0.65rem 0.75rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.navigation-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.75rem;
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+main {
+  min-width: 0;
+  padding: clamp(2rem, 6vw, 5rem);
+  background-color: #edf1f2;
+  background-image: linear-gradient(rgba(24, 36, 43, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 36, 43, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+main:focus {
+  outline: none;
+}
+
+.home-page {
+  max-width: 52rem;
+  padding-top: clamp(1rem, 8vh, 5.5rem);
+}
+
+.page-kicker {
+  margin: 0 0 0.8rem;
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: #18242b;
+  font-family: "Segoe UI Variable Display", "Aptos Display", sans-serif;
+  font-size: 3.25rem;
+  font-weight: 650;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.page-introduction {
+  max-width: 36rem;
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 700px) {
+  .app-shell {
+    grid-template-rows: 4rem minmax(0, 1fr);
+  }
+
+  .app-header {
+    padding: 0 1rem;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .side-navigation {
+    padding: 0.75rem 1rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--navigation-border);
+  }
+
+  .navigation-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .navigation-item {
+    width: fit-content;
+    min-width: 8rem;
+    border-bottom: 3px solid var(--accent);
+    border-left: 0;
+    border-radius: 4px 4px 0 0;
+  }
+
+  main {
+    padding: 2rem 1.25rem;
+  }
+
+  .home-page {
+    padding-top: 1rem;
+  }
+
+  h1 {
+    font-size: 2.4rem;
+  }
+}

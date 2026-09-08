@@ -1,0 +1,51 @@
+# RTE Companion
+
+Application web locale construite avec Svelte, TypeScript et Vite. Elle s'exécute entièrement dans Microsoft Edge, sans backend ni serveur web en production.
+
+## Prérequis
+
+- Node.js et npm pour développer et construire l'application
+- Une version récente de Microsoft Edge pour exécuter le livrable
+
+## Installation
+
+```powershell
+npm install
+```
+
+## Développement
+
+```powershell
+npm run dev
+```
+
+Le serveur Vite est utilisé uniquement pendant le développement.
+
+## Contrôles
+
+```powershell
+npm run check
+npm test
+```
+
+## Distribution locale
+
+```powershell
+npm run build
+```
+
+Le build produit un fichier autonome `dist/index.html`. Ouvrez ce fichier directement dans Microsoft Edge, par double-clic ou depuis l'explorateur de fichiers. Aucun serveur web n'est nécessaire.
+
+Les données locales sont conservées avec IndexedDB dans la base `rte-companion`. Leur disponibilité sous le protocole `file://` dépend des politiques de sécurité configurées dans Edge sur le poste cible.
+
+## Structure
+
+```text
+src/
+|-- components/  Composants du shell applicatif
+|-- pages/       Contenu des pages
+|-- services/    Services clients, dont IndexedDB
+|-- styles/      Styles globaux
+|-- App.svelte   Composition générale
+`-- main.ts      Point d'entrée
+```
