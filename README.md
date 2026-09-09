@@ -45,6 +45,15 @@ Le build produit un fichier autonome `dist/index.html`. Ouvrez ce fichier direct
 
 Les données locales sont conservées avec IndexedDB dans la base `rte-companion`. Leur disponibilité sous le protocole `file://` dépend des politiques de sécurité configurées dans Edge sur le poste cible.
 
+## Publication
+
+L'intégration continue est assurée par GitHub Actions.
+
+- Sur chaque pull request vers `main`, les contrôles `npm run check`, `npm test` et `npm run build` sont exécutés.
+- À chaque merge dans `main`, les mêmes contrôles sont rejoués, puis le workflow crée un tag `vX.Y.Z` en incrémentant le numéro de patch et publie une release GitHub.
+
+La release contient le fichier autonome `rte-companion-X.Y.Z.html`. Téléchargez-le et ouvrez-le directement dans Microsoft Edge.
+
 ## Structure
 
 ```text

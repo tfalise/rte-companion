@@ -1,0 +1,75 @@
+name: Publication d'une version
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-main
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Tests, build et publication
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupération du dépôt
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Installation de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Installation des dépendances
+        run: npm ci
+
+      - name: Vérification des types
+        run: npm run check
+
+      - name: Tests unitaires
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Calcul de la version
+        id: version
+        run: |
+          set -euo pipefail
+          dernier_tag="$(git tag --list 'v*.*.*' --sort=-v:refname | head -n 1)"
+          if [ -z "$dernier_tag" ]; then
+            version="0.1.0"
+          else
+            IFS='.' read -r majeure mineure patch <<< "${dernier_tag#v}"
+            version="${majeure}.${mineure}.$((patch + 1))"
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "tag=v${version}" >> "$GITHUB_OUTPUT"
+
+      - name: Création du tag
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git tag '${{ steps.version.outputs.tag }}'
+          git push origin '${{ steps.version.outputs.tag }}'
+
+      - name: Préparation du livrable
+        run: cp dist/index.html 'rte-companion-${{ steps.version.outputs.version }}.html'
+
+      - name: Publication de la release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create '${{ steps.version.outputs.tag }}' \
+            'rte-companion-${{ steps.version.outputs.version }}.html' \
+            --title 'RTE Companion ${{ steps.version.outputs.version }}' \
+            --generate-notes
