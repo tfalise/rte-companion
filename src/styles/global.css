@@ -32,11 +32,14 @@ body {
 }
 
 button,
-a {
+a,
+input {
   font: inherit;
 }
 
-a:focus-visible {
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
   outline: 3px solid #f2a900;
   outline-offset: 3px;
 }
@@ -119,12 +122,25 @@ a:focus-visible {
   gap: 0.75rem;
   min-height: 2.75rem;
   padding: 0.65rem 0.75rem;
-  color: var(--accent-strong);
-  background: var(--accent-soft);
-  border-left: 3px solid var(--accent);
+  color: #34464d;
+  border-left: 3px solid transparent;
   border-radius: 0 4px 4px 0;
   font-weight: 650;
   text-decoration: none;
+}
+
+.navigation-item + .navigation-item {
+  margin-top: 0.35rem;
+}
+
+.navigation-item:hover {
+  background: #edf3f2;
+}
+
+.navigation-item.active {
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+  border-left-color: var(--accent);
 }
 
 main {
@@ -140,9 +156,13 @@ main:focus {
   outline: none;
 }
 
-.home-page {
-  max-width: 52rem;
-  padding-top: clamp(1rem, 8vh, 5.5rem);
+.page {
+  width: min(100%, 76rem);
+  margin: 0 auto;
+}
+
+.narrow-page {
+  max-width: 50rem;
 }
 
 .page-kicker {
@@ -158,7 +178,7 @@ h1 {
   margin: 0;
   color: #18242b;
   font-family: "Segoe UI Variable Display", "Aptos Display", sans-serif;
-  font-size: 3.25rem;
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
   font-weight: 650;
   line-height: 1.05;
   letter-spacing: 0;
@@ -171,6 +191,128 @@ h1 {
   font-size: 1.05rem;
   line-height: 1.6;
 }
+
+.page-heading,
+.team-heading,
+.form-actions,
+.team-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.page-heading {
+  align-items: flex-end;
+  margin-bottom: 2rem;
+}
+
+.primary-button,
+.secondary-button,
+.icon-text-button,
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.65rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.primary-button { color: #ffffff; background: var(--accent-strong); }
+.primary-button:hover { background: #004c46; }
+.secondary-button, .icon-text-button, .icon-button { color: #26383f; background: #ffffff; border-color: #b9c7c9; }
+button:disabled { cursor: not-allowed; opacity: 0.55; }
+.icon-button { width: 2.65rem; padding: 0; }
+
+.data-table-wrapper {
+  overflow-x: auto;
+  background: #ffffff;
+  border: 1px solid var(--navigation-border);
+  border-radius: 6px;
+}
+
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 1rem; border-bottom: 1px solid #e1e8e9; text-align: left; vertical-align: middle; }
+th { color: var(--muted); background: #f7faf9; font-size: 0.78rem; text-transform: uppercase; }
+tbody tr:last-child td { border-bottom: 0; }
+.person-name { font-weight: 700; }
+.email-link, .member-list a { color: var(--accent-strong); }
+.action-cell { width: 4rem; text-align: right; }
+
+.tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tag { padding: 0.25rem 0.5rem; color: #31504d; background: var(--accent-soft); border-radius: 3px; font-size: 0.82rem; }
+.muted-text, .team-heading p, .team-list small { color: var(--muted); }
+
+.empty-state,
+.empty-detail {
+  padding: 3.5rem 1.5rem;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px dashed #aebdbf;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.empty-state h2 { margin: 0.8rem 0 0.35rem; color: #26383f; font-size: 1.2rem; }
+.empty-state p { margin: 0; }
+.back-link { display: inline-flex; align-items: center; gap: 0.4rem; margin-bottom: 1.5rem; color: var(--accent-strong); font-weight: 700; text-decoration: none; }
+
+.editor-form,
+.inline-form {
+  padding: 1.5rem;
+  background: #ffffff;
+  border: 1px solid var(--navigation-border);
+  border-radius: 6px;
+}
+
+.editor-form > label, .form-grid label, .inline-form label { display: grid; gap: 0.45rem; color: #304249; font-weight: 700; }
+.editor-form > label, .editor-form fieldset { margin-top: 1.25rem; }
+.form-grid, .inline-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+input[type='email'], label input:not([type]) { width: 100%; min-height: 2.75rem; padding: 0.55rem 0.7rem; color: #18242b; background: #ffffff; border: 1px solid #9eafb2; border-radius: 3px; }
+fieldset { padding: 1rem; border: 1px solid #ced9da; border-radius: 4px; }
+legend { padding: 0 0.4rem; font-weight: 750; }
+.checkbox-list { display: grid; gap: 0.35rem; }
+.checkbox-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem; border-radius: 3px; }
+.checkbox-row:hover { background: #f2f6f5; }
+.checkbox-row input { width: 1.1rem; height: 1.1rem; }
+.checkbox-row span { display: grid; gap: 0.15rem; }
+.checkbox-row small { color: var(--muted); }
+.form-actions { justify-content: flex-end; margin-top: 1.5rem; }
+.inline-form { grid-template-columns: minmax(12rem, 1fr) minmax(12rem, 1fr) auto; align-items: end; margin-bottom: 1.5rem; }
+.form-error, .error-message { color: #9c2f22; }
+.inline-form .form-error { grid-column: 1 / -1; margin: 0; }
+
+.teams-layout {
+  display: grid;
+  grid-template-columns: minmax(12rem, 17rem) minmax(0, 1fr);
+  min-height: 26rem;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--navigation-border);
+  border-radius: 6px;
+}
+
+.team-list { padding: 0.75rem; background: #f7faf9; border-right: 1px solid var(--navigation-border); }
+.team-list a { display: grid; gap: 0.2rem; padding: 0.8rem; color: #26383f; border-left: 3px solid transparent; text-decoration: none; }
+.team-list a.active { color: var(--accent-strong); background: var(--accent-soft); border-left-color: var(--accent); }
+.team-detail { min-width: 0; padding: 1.5rem; }
+.team-heading { padding-bottom: 1.25rem; border-bottom: 1px solid #dce4e5; }
+.team-heading h2, .team-heading p { margin: 0; }
+.team-heading h2 { font-size: 1.5rem; }
+.team-heading p { margin-top: 0.3rem; }
+.member-list { margin: 0; padding: 0; list-style: none; }
+.member-list li { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid #e1e8e9; }
+.member-list li > div { display: grid; gap: 0.3rem; min-width: 0; }
+.compact-button { min-height: 2.25rem; padding: 0.4rem 0.65rem; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.status-message { max-width: 76rem; margin: 0 auto; }
 
 @media (max-width: 700px) {
   .app-shell {
@@ -187,6 +329,7 @@ h1 {
   }
 
   .side-navigation {
+    display: flex;
     padding: 0.75rem 1rem;
     border-right: 0;
     border-bottom: 1px solid var(--navigation-border);
@@ -203,20 +346,102 @@ h1 {
   .navigation-item {
     width: fit-content;
     min-width: 8rem;
-    border-bottom: 3px solid var(--accent);
+    border-bottom: 3px solid transparent;
     border-left: 0;
     border-radius: 4px 4px 0 0;
+  }
+
+  .navigation-item + .navigation-item {
+    margin-top: 0;
+    margin-left: 0.35rem;
+  }
+
+  .navigation-item.active {
+    border-bottom-color: var(--accent);
   }
 
   main {
     padding: 2rem 1.25rem;
   }
 
-  .home-page {
-    padding-top: 1rem;
+  .page-heading,
+  .team-heading {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
-  h1 {
-    font-size: 2.4rem;
+  .form-grid,
+  .inline-form,
+  .teams-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .inline-form .primary-button {
+    justify-self: start;
+  }
+
+  .team-list {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--navigation-border);
+  }
+
+  .team-list a {
+    min-width: 11rem;
+    border-bottom: 3px solid transparent;
+    border-left: 0;
+  }
+
+  .team-list a.active {
+    border-bottom-color: var(--accent);
+  }
+
+  .team-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .member-list li {
+    align-items: flex-start;
+  }
+
+  .data-table-wrapper {
+    background: transparent;
+    border: 0;
+  }
+
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    position: relative;
+    margin-bottom: 0.75rem;
+    padding: 1rem 3.5rem 1rem 1rem;
+    background: #ffffff;
+    border: 1px solid var(--navigation-border);
+    border-radius: 4px;
+  }
+
+  td {
+    padding: 0.25rem 0;
+    border: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .action-cell {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: auto;
   }
 }

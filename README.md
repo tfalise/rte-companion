@@ -2,6 +2,13 @@
 
 Application web locale construite avec Svelte, TypeScript et Vite. Elle s'exécute entièrement dans Microsoft Edge, sans backend ni serveur web en production.
 
+## Fonctionnalités
+
+- Gestion des personnes mobilisées sur le projet
+- Organisation d'une personne dans une ou plusieurs équipes
+- Consultation des membres d'une équipe
+- Copie des adresses email d'une équipe, séparées par des points-virgules
+
 ## Prérequis
 
 - Node.js et npm pour développer et construire l'application

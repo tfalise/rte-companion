@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto'
 import { describe, expect, it } from 'vitest'
-import { initializeDatabase } from './database'
+import { initializeDatabase, listPeople, listTeams, savePerson, saveTeam } from './database'
 
 describe('initializeDatabase', () => {
   it('creates an empty versioned metadata store', async () => {
@@ -13,9 +13,33 @@ describe('initializeDatabase', () => {
     })
 
     expect(database.name).toBe('rte-companion')
-    expect(database.version).toBe(1)
+    expect(database.version).toBe(2)
     expect(count).toBe(0)
+    expect([...database.objectStoreNames]).toEqual(['application-metadata', 'people', 'teams'])
+  })
 
-    database.close()
+  it('stores people assigned to several teams', async () => {
+    const delivery = await saveTeam({ name: 'Delivery', slug: 'dev-delivery' })
+    const devops = await saveTeam({ name: 'DevOps & Infra', slug: 'dev-devops-infra' })
+
+    const person = await savePerson({
+      firstName: 'Camille',
+      lastName: 'Martin',
+      email: 'camille.martin@example.com',
+      teamIds: [delivery.id, devops.id, devops.id],
+    })
+
+    expect(await listTeams()).toEqual([delivery, devops])
+    expect(await listPeople()).toEqual([
+      expect.objectContaining({
+        firstName: 'Camille',
+        teamIds: [delivery.id, devops.id],
+      }),
+    ])
+
+    await savePerson({ ...person, email: 'camille.martin@project.example' }, person.id)
+    expect(await listPeople()).toEqual([
+      expect.objectContaining({ id: person.id, email: 'camille.martin@project.example' }),
+    ])
   })
 })
