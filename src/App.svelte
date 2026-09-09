@@ -2,10 +2,11 @@
   import { onMount } from 'svelte'
   import AppHeader from './components/AppHeader.svelte'
   import SideNavigation from './components/SideNavigation.svelte'
+  import AddTeamMemberPage from './pages/AddTeamMemberPage.svelte'
   import PeoplePage from './pages/PeoplePage.svelte'
   import PersonPage from './pages/PersonPage.svelte'
   import TeamsPage from './pages/TeamsPage.svelte'
-  import { listPeople, listTeams, savePerson, saveTeam, type Person, type PersonInput, type Team, type TeamInput } from './services/database'
+  import { assignPersonToTeam, listPeople, listTeams, savePerson, saveTeam, type Person, type PersonInput, type Team, type TeamInput } from './services/database'
 
   let route = 'personnes'
   let people: Person[] = []
@@ -16,8 +17,10 @@
 
   $: activeView = route.startsWith('equipes') ? 'teams' : 'people'
   $: routePath = route.split('?')[0]
+  $: routeSegments = routePath.split('/')
   $: personId = routePath.startsWith('personnes/') ? routePath.slice('personnes/'.length) : ''
-  $: selectedTeamId = routePath.startsWith('equipes/') ? routePath.slice('equipes/'.length) : ''
+  $: selectedTeamId = routeSegments[0] === 'equipes' ? routeSegments[1] ?? '' : ''
+  $: isAddingTeamMember = routeSegments[0] === 'equipes' && routeSegments[2] === 'ajouter'
   $: initialTeamId = new URLSearchParams(route.split('?')[1] ?? '').get('equipe') ?? ''
 
   onMount(() => {
@@ -54,6 +57,12 @@
     await refreshData()
     window.location.hash = `equipes/${team.id}`
   }
+
+  async function handleAssignPerson(personId: string, teamId: string) {
+    await assignPersonToTeam(personId, teamId)
+    await refreshData()
+    window.location.hash = `equipes/${teamId}`
+  }
 </script>
 
 <a class="skip-link" href="#main-content">Aller au contenu principal</a>
@@ -67,6 +76,8 @@
         <p class="status-message">Chargement…</p>
       {:else if error}
         <p class="status-message error-message" role="alert">{error}</p>
+      {:else if isAddingTeamMember}
+        <AddTeamMemberPage {people} {teams} teamId={selectedTeamId} onAssign={handleAssignPerson} />
       {:else if personId}
         <PersonPage {people} {teams} {personId} {initialTeamId} onSave={handleSavePerson} />
       {:else if activeView === 'teams'}

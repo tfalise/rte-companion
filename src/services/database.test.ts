@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto'
 import { describe, expect, it } from 'vitest'
-import { initializeDatabase, listPeople, listTeams, savePerson, saveTeam } from './database'
+import { assignPersonToTeam, initializeDatabase, listPeople, listTeams, savePerson, saveTeam } from './database'
 
 describe('initializeDatabase', () => {
   it('creates an empty versioned metadata store', async () => {
@@ -21,6 +21,7 @@ describe('initializeDatabase', () => {
   it('stores people assigned to several teams', async () => {
     const delivery = await saveTeam({ name: 'Delivery', slug: 'dev-delivery' })
     const devops = await saveTeam({ name: 'DevOps & Infra', slug: 'dev-devops-infra' })
+    const support = await saveTeam({ name: 'Support', slug: 'support' })
 
     const person = await savePerson({
       firstName: 'Camille',
@@ -29,7 +30,7 @@ describe('initializeDatabase', () => {
       teamIds: [delivery.id, devops.id, devops.id],
     })
 
-    expect(await listTeams()).toEqual([delivery, devops])
+    expect(await listTeams()).toEqual(expect.arrayContaining([delivery, devops, support]))
     expect(await listPeople()).toEqual([
       expect.objectContaining({
         firstName: 'Camille',
@@ -41,5 +42,9 @@ describe('initializeDatabase', () => {
     expect(await listPeople()).toEqual([
       expect.objectContaining({ id: person.id, email: 'camille.martin@project.example' }),
     ])
+
+    await assignPersonToTeam(person.id, support.id)
+    await assignPersonToTeam(person.id, support.id)
+    expect((await listPeople())[0].teamIds).toEqual([delivery.id, devops.id, support.id])
   })
 })

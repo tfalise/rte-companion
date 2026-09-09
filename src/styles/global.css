@@ -314,6 +314,102 @@ legend { padding: 0 0.4rem; font-weight: 750; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 .status-message { max-width: 76rem; margin: 0 auto; }
 
+.member-picker {
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid var(--navigation-border);
+  border-radius: 6px;
+}
+
+.search-field {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.65rem;
+  margin: 1.25rem;
+  padding: 0 0.8rem;
+  color: var(--muted);
+  background: #ffffff;
+  border: 1px solid #879a9e;
+  border-radius: 4px;
+}
+
+.search-field:focus-within {
+  outline: 3px solid #f2a900;
+  outline-offset: 2px;
+}
+
+.search-field input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0;
+  color: #18242b;
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+
+.picker-summary {
+  padding: 0 1.25rem 0.75rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.person-results {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #e1e8e9;
+  list-style: none;
+}
+
+.person-results li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e1e8e9;
+}
+
+.person-results li:last-child {
+  border-bottom: 0;
+}
+
+.person-results li > div,
+.create-person-callout > div {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.person-results span,
+.create-person-callout span {
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.member-picker .empty-detail {
+  margin: 0;
+  border-width: 1px 0 0;
+  border-radius: 0;
+}
+
+.member-picker .form-error {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #efd0cb;
+}
+
+.create-person-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #c9d5d6;
+}
+
 @media (max-width: 700px) {
   .app-shell {
     grid-template-rows: 4rem minmax(0, 1fr);
@@ -405,6 +501,16 @@ legend { padding: 0 0.4rem; font-weight: 750; }
 
   .member-list li {
     align-items: flex-start;
+  }
+
+  .create-person-callout,
+  .person-results li {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .person-results .secondary-button {
+    width: 100%;
   }
 
   .data-table-wrapper {

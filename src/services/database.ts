@@ -80,6 +80,23 @@ export async function savePerson(input: PersonInput, id: string = crypto.randomU
   return person
 }
 
+export async function assignPersonToTeam(personId: string, teamId: string): Promise<Person> {
+  const database = await initializeDatabase()
+  const transaction = database.transaction(PEOPLE_STORE, 'readwrite')
+  const store = transaction.objectStore(PEOPLE_STORE)
+  const person = await requestResult<Person | undefined>(store.get(personId))
+
+  if (!person) {
+    transaction.abort()
+    throw new Error("La personne à affecter n'existe pas.")
+  }
+
+  const updatedPerson = { ...person, teamIds: [...new Set([...person.teamIds, teamId])] }
+  store.put(updatedPerson)
+  await transactionComplete(transaction)
+  return updatedPerson
+}
+
 export async function listTeams(): Promise<Team[]> {
   return getAll<Team>(TEAMS_STORE)
 }
