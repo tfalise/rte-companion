@@ -12,7 +12,7 @@
 
   function readableTextColor(backgroundColor: string) {
     const backgroundLuminance = relativeLuminance(backgroundColor)
-    const darkText = '#18242b'
+    const darkText = '#000000'
     const lightText = '#ffffff'
 
     return contrastRatio(backgroundLuminance, relativeLuminance(darkText)) > contrastRatio(backgroundLuminance, relativeLuminance(lightText)) ? darkText : lightText
