@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Check, Clipboard, Plus, UsersRound } from '@lucide/svelte'
   import { copyText } from '../services/clipboard'
-  import type { Person, Team, TeamInput } from '../services/database'
+  import { DEFAULT_TEAM_COLOR, type Person, type Team, type TeamInput } from '../services/database'
 
   export let people: Person[]
   export let teams: Team[]
@@ -10,6 +10,7 @@
 
   let name = ''
   let slug = ''
+  let color = DEFAULT_TEAM_COLOR
   let showForm = false
   let saving = false
   let error = ''
@@ -25,9 +26,10 @@
     saving = true
     error = ''
     try {
-      await onSaveTeam({ name, slug })
+      await onSaveTeam({ name, slug, color })
       name = ''
       slug = ''
+      color = DEFAULT_TEAM_COLOR
       showForm = false
     } catch (caughtError) {
       console.error("Impossible de créer l'équipe.", caughtError)
@@ -55,6 +57,7 @@
     <form class="inline-form" on:submit={createTeam}>
       <label>Nom<input bind:value={name} required placeholder="DevOps & Infra" /></label>
       <label>Slug technique<input bind:value={slug} required pattern="[a-z0-9]+(?:-[a-z0-9]+)*" placeholder="dev-devops-infra" /></label>
+      <label>Couleur<input bind:value={color} type="color" aria-label="Couleur de l’équipe" /></label>
       <button class="primary-button" type="submit" disabled={saving}>{saving ? 'Création…' : 'Créer'}</button>
       {#if error}<p class="form-error" role="alert">{error}</p>{/if}
     </form>
