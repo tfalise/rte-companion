@@ -50,5 +50,10 @@ describe('initializeDatabase', () => {
     await assignPersonToTeam(person.id, support.id)
     await assignPersonToTeam(person.id, support.id)
     expect((await listPeople())[0].teamIds).toEqual([delivery.id, devops.id, support.id])
+
+    await saveTeam({ name: 'Delivery agile', slug: 'delivery-agile', color: '#005BBB' }, delivery.id)
+    expect(await listTeams()).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: delivery.id, name: 'Delivery agile', slug: 'delivery-agile', color: '#005bbb' }),
+    ]))
   })
 })

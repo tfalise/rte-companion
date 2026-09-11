@@ -287,6 +287,7 @@ legend { padding: 0 0.4rem; font-weight: 750; }
 .checkbox-row small { color: var(--muted); }
 .form-actions { justify-content: flex-end; margin-top: 1.5rem; }
 .inline-form { grid-template-columns: minmax(12rem, 1fr) minmax(12rem, 1fr) minmax(7rem, 9rem) auto; align-items: end; margin-bottom: 1.5rem; }
+.inline-form-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .form-error, .error-message { color: #9c2f22; }
 .inline-form .form-error { grid-column: 1 / -1; margin: 0; }
 
