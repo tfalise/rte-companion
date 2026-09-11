@@ -15,7 +15,10 @@
   let error = ''
   let copied = false
   $: selectedTeam = teams.find((team) => team.id === selectedTeamId) ?? teams[0]
-  $: members = selectedTeam ? people.filter((person) => person.teamIds.includes(selectedTeam.id)) : []
+  $: sortedTeams = [...teams].sort((left, right) => left.name.localeCompare(right.name, 'fr'))
+  $: members = selectedTeam
+    ? people.filter((person) => person.teamIds.includes(selectedTeam.id)).sort((left, right) => `${left.lastName} ${left.firstName}`.localeCompare(`${right.lastName} ${right.firstName}`, 'fr'))
+    : []
 
   async function createTeam(event: SubmitEvent) {
     event.preventDefault()
@@ -62,7 +65,7 @@
   {:else}
     <div class="teams-layout">
       <nav class="team-list" aria-label="Liste des équipes">
-        {#each teams as team}<a class:active={team.id === selectedTeam?.id} href={`#equipes/${team.id}`}><span>{team.name}</span><small>{team.slug}</small></a>{/each}
+        {#each sortedTeams as team}<a class:active={team.id === selectedTeam?.id} href={`#equipes/${team.id}`}><span>{team.name}</span><small>{team.slug}</small></a>{/each}
       </nav>
       <section class="team-detail" aria-labelledby="team-name">
         <header class="team-heading"><div><h2 id="team-name">{selectedTeam.name}</h2><p>{members.length} {members.length === 1 ? 'membre' : 'membres'}</p></div><div class="team-actions"><button class="icon-text-button" type="button" on:click={copyEmails} disabled={members.length === 0} title="Copier les emails"><svelte:component this={copied ? Check : Clipboard} size={18} aria-hidden="true" />{copied ? 'Copiés' : 'Copier les emails'}</button><a class="primary-button" href={`#equipes/${selectedTeam.id}/ajouter`}><Plus size={18} aria-hidden="true" /> Ajouter un membre</a></div></header>

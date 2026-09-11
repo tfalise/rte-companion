@@ -47,6 +47,7 @@
 - Préserver le shell principal : barre de titre supérieure, navigation à gauche sur écran large et contenu principal à droite.
 - Préserver le repli mobile sans chevauchement ni défilement horizontal.
 - Réutiliser les variables CSS de `src/styles/global.css` avant d'ajouter de nouvelles couleurs ou dimensions partagées.
+- Afficher toute liste de personnes ou de noms dans l'ordre alphabétique français, en triant les personnes d'abord par nom de famille puis par prénom, y compris les listes filtrées ou liées à une équipe.
 - Ne pas afficher de diagnostics techniques, détails de stockage ou instructions de développement dans l'interface utilisateur.
 
 ## Qualité et validation

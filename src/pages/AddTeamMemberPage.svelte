@@ -16,7 +16,7 @@
   $: normalizedQuery = normalize(query)
   $: filteredPeople = availablePeople
     .filter((person) => normalize(`${person.firstName} ${person.lastName} ${person.email}`).includes(normalizedQuery))
-    .sort((left, right) => `${left.firstName} ${left.lastName}`.localeCompare(`${right.firstName} ${right.lastName}`, 'fr'))
+    .sort((left, right) => `${left.lastName} ${left.firstName}`.localeCompare(`${right.lastName} ${right.firstName}`, 'fr'))
 
   function normalize(value: string) {
     return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('fr').trim()

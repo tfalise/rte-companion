@@ -6,7 +6,10 @@
   export let teams: Team[]
 
   const fullName = (person: Person) => `${person.firstName} ${person.lastName}`
-  const teamNames = (person: Person) => teams.filter((team) => person.teamIds.includes(team.id)).map((team) => team.name)
+  const teamNames = (person: Person) => teams
+    .filter((team) => person.teamIds.includes(team.id))
+    .map((team) => team.name)
+    .sort((left, right) => left.localeCompare(right, 'fr'))
 </script>
 
 <section class="page" aria-labelledby="page-title">
@@ -33,7 +36,7 @@
       <table>
         <thead><tr><th>Personne</th><th>Email</th><th>Équipes</th><th><span class="visually-hidden">Actions</span></th></tr></thead>
         <tbody>
-          {#each [...people].sort((a, b) => fullName(a).localeCompare(fullName(b), 'fr')) as person}
+          {#each [...people].sort((left, right) => `${left.lastName} ${left.firstName}`.localeCompare(`${right.lastName} ${right.firstName}`, 'fr')) as person}
             <tr>
               <td class="person-name">{fullName(person)}</td>
               <td><a class="email-link" href={`mailto:${person.email}`}>{person.email}</a></td>
