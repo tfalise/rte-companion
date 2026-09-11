@@ -16,8 +16,8 @@
   let saving = false
   let error = ''
   let copied = false
-  $: selectedTeam = teams.find((team) => team.id === selectedTeamId) ?? teams[0]
   $: sortedTeams = [...teams].sort((left, right) => left.name.localeCompare(right.name, 'fr'))
+  $: selectedTeam = teams.find((team) => team.id === selectedTeamId) ?? sortedTeams[0]
   $: members = selectedTeam
     ? people.filter((person) => person.teamIds.includes(selectedTeam.id)).sort((left, right) => `${left.lastName} ${left.firstName}`.localeCompare(`${right.lastName} ${right.firstName}`, 'fr'))
     : []
