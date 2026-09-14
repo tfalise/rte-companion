@@ -25,6 +25,7 @@
     email = existingPerson?.email ?? ''
     teamIds = existingPerson?.teamIds ? [...existingPerson.teamIds] : initialTeamId ? [initialTeamId] : []
   }
+  $: sortedTeams = [...teams].sort((left, right) => left.name.localeCompare(right.name, 'fr'))
 
   function toggleTeam(teamId: string, checked: boolean) {
     teamIds = checked ? [...teamIds, teamId] : teamIds.filter((id) => id !== teamId)
@@ -64,7 +65,7 @@
         <legend>Équipes</legend>
         {#if teams.length === 0}<p class="muted-text">Aucune équipe n’a encore été créée.</p>{/if}
         <div class="checkbox-list">
-          {#each teams as team}
+          {#each sortedTeams as team}
             <label class="checkbox-row"><input type="checkbox" checked={teamIds.includes(team.id)} on:change={(event) => toggleTeam(team.id, event.currentTarget.checked)} /><span><strong>{team.name}</strong><small>{team.slug}</small></span></label>
           {/each}
         </div>

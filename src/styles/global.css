@@ -247,7 +247,7 @@ tbody tr:last-child td { border-bottom: 0; }
 .action-cell { width: 4rem; text-align: right; }
 
 .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.tag { padding: 0.25rem 0.5rem; color: #31504d; background: var(--accent-soft); border-radius: 3px; font-size: 0.82rem; }
+.tag { padding: 0.25rem 0.5rem; border-radius: 3px; font-size: 0.82rem; font-weight: 700; }
 .muted-text, .team-heading p, .team-list small { color: var(--muted); }
 
 .empty-state,
@@ -275,7 +275,8 @@ tbody tr:last-child td { border-bottom: 0; }
 .editor-form > label, .form-grid label, .inline-form label { display: grid; gap: 0.45rem; color: #304249; font-weight: 700; }
 .editor-form > label, .editor-form fieldset { margin-top: 1.25rem; }
 .form-grid, .inline-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-input[type='email'], label input:not([type]) { width: 100%; min-height: 2.75rem; padding: 0.55rem 0.7rem; color: #18242b; background: #ffffff; border: 1px solid #9eafb2; border-radius: 3px; }
+input[type='email'], input[type='color'], label input:not([type]) { width: 100%; min-height: 2.75rem; padding: 0.55rem 0.7rem; color: #18242b; background: #ffffff; border: 1px solid #9eafb2; border-radius: 3px; }
+input[type='color'] { padding: 0.25rem; cursor: pointer; }
 fieldset { padding: 1rem; border: 1px solid #ced9da; border-radius: 4px; }
 legend { padding: 0 0.4rem; font-weight: 750; }
 .checkbox-list { display: grid; gap: 0.35rem; }
@@ -285,7 +286,8 @@ legend { padding: 0 0.4rem; font-weight: 750; }
 .checkbox-row span { display: grid; gap: 0.15rem; }
 .checkbox-row small { color: var(--muted); }
 .form-actions { justify-content: flex-end; margin-top: 1.5rem; }
-.inline-form { grid-template-columns: minmax(12rem, 1fr) minmax(12rem, 1fr) auto; align-items: end; margin-bottom: 1.5rem; }
+.inline-form { grid-template-columns: minmax(12rem, 1fr) minmax(12rem, 1fr) minmax(7rem, 9rem) auto; align-items: end; margin-bottom: 1.5rem; }
+.inline-form-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .form-error, .error-message { color: #9c2f22; }
 .inline-form .form-error { grid-column: 1 / -1; margin: 0; }
 

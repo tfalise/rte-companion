@@ -52,8 +52,8 @@
     window.location.hash = initialTeamId ? `equipes/${initialTeamId}` : 'personnes'
   }
 
-  async function handleSaveTeam(input: TeamInput) {
-    const team = await saveTeam(input)
+  async function handleSaveTeam(input: TeamInput, id?: string) {
+    const team = await saveTeam(input, id)
     await refreshData()
     window.location.hash = `equipes/${team.id}`
   }

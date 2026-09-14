@@ -1,8 +1,9 @@
 const DATABASE_NAME = 'rte-companion'
-const DATABASE_VERSION = 2
+const DATABASE_VERSION = 3
 const METADATA_STORE = 'application-metadata'
 const PEOPLE_STORE = 'people'
 const TEAMS_STORE = 'teams'
+export const DEFAULT_TEAM_COLOR = '#007d73'
 
 export interface Person {
   id: string
@@ -16,10 +17,11 @@ export interface Team {
   id: string
   name: string
   slug: string
+  color: string
 }
 
 export type PersonInput = Omit<Person, 'id'>
-export type TeamInput = Omit<Team, 'id'>
+export type TeamInput = Omit<Team, 'id' | 'color'> & Partial<Pick<Team, 'color'>>
 
 let databasePromise: Promise<IDBDatabase> | undefined
 
@@ -36,7 +38,7 @@ function openDatabase(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(DATABASE_NAME, DATABASE_VERSION)
 
-    request.onupgradeneeded = () => {
+    request.onupgradeneeded = (event) => {
       if (!request.result.objectStoreNames.contains(METADATA_STORE)) {
         request.result.createObjectStore(METADATA_STORE)
       }
@@ -48,6 +50,8 @@ function openDatabase(): Promise<IDBDatabase> {
       if (!request.result.objectStoreNames.contains(TEAMS_STORE)) {
         const teamStore = request.result.createObjectStore(TEAMS_STORE, { keyPath: 'id' })
         teamStore.createIndex('slug', 'slug', { unique: true })
+      } else if (event.oldVersion < 3) {
+        migrateTeamColors(request.transaction?.objectStore(TEAMS_STORE))
       }
     }
 
@@ -106,10 +110,30 @@ export async function saveTeam(input: TeamInput, id: string = crypto.randomUUID(
     id,
     name: input.name.trim(),
     slug: input.slug.trim(),
+    color: normalizeTeamColor(input.color),
   }
 
   await put(TEAMS_STORE, team)
   return team
+}
+
+function migrateTeamColors(teamStore: IDBObjectStore | undefined) {
+  if (!teamStore) return
+
+  const request = teamStore.openCursor()
+  request.onsuccess = () => {
+    const cursor = request.result
+    if (!cursor) return
+
+    const team = cursor.value as Team
+    cursor.update({ ...team, color: normalizeTeamColor(team.color) })
+    cursor.continue()
+  }
+}
+
+function normalizeTeamColor(color: string | undefined): string {
+  const trimmedColor = color?.trim() ?? ''
+  return /^#[0-9a-f]{6}$/i.test(trimmedColor) ? trimmedColor.toLowerCase() : DEFAULT_TEAM_COLOR
 }
 
 async function getAll<T>(storeName: string): Promise<T[]> {
